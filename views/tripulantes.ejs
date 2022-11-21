@@ -1,0 +1,39 @@
+<%- include('template/cabecera') %>
+    <div class="container">
+
+        <h1>CRUD Tripulantes</h1>
+        <a class="btn btn-success btn-block my-4"
+           href="/tripulantes/nuevo">
+          Insertar nuevo tripulante
+        </a>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Email</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+
+                <% if (arrayTripulantes.length > 0) { %>
+                <%  arrayTripulantes.forEach(tripulante => { %>
+                    
+                    <tr>
+                        <td><%=tripulante.nombre %></td>
+                        <td><%=tripulante.edad %></td>
+                        <td><%=tripulante.email %></td>
+                        <td>@mdo</td>
+                    </tr>
+
+                <% }); %>
+                <% } %>
+
+            </tbody>
+          </table>
+
+
+    </div>
+<%- include('template/footer') %>

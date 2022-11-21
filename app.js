@@ -27,8 +27,32 @@ server.listen(puerto, () => {
 */
 //Ejecutar en el navegador
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
 const puerto = 3000;
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+
+//Conexion a mongoDB
+const mongoose = require('mongoose');
+
+const user = "usermongo";
+const password = "Mgjwt39t.";
+const dbname = "mintic20222";
+const uri = `mongodb+srv://${user}:${password}@cluster0.nrsmc13.mongodb.net/${dbname}?retryWrites=true&w=majority`
+
+
+mongoose.connect(uri,
+    { useNewUrlParser: true, useUnifiedTopology: true })
+
+    .then(() => console.log('Conexion a base de datos ok!!'))
+    .catch(e => console.log(e))
+
 
 //configurar el motor de plantillas EJS
 app.set('view engine','ejs');
@@ -36,15 +60,9 @@ app.set('views',__dirname+'/views');
 
 app.use(express.static(__dirname+"/public"))
 
-//Ejecutar en el navegador o cliente
-app.get('/',(req,res)=>{
-    res.render('index',{titulo: 'Título dinámico EJS'})
-})
-
-app.get('/mintic',(req,res)=>{
-    res.send('Respuesta con expres de mintic!!')
-})
-
+//Rutas Web
+app.use('/',require('./router/RutasWeb'));
+app.use('/tripulantes',require('./router/Tripulantes'));
 
 //Ejecutar en el servidor node js
 app.listen(puerto, () => {
